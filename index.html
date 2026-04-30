@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RL_V0ID | Web Penetration Tester & Bug Bounty Hunter</title>
+    <title>RL_V0ID | Web Security Student & Bug Bounty Learner</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -33,7 +33,7 @@
             scroll-behavior: smooth;
         }
 
-        /* --- CUSTOM SCOPE CURSOR --- */
+        /* --- BASE PAGE --- */
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
@@ -42,14 +42,10 @@
             overflow-x: hidden;
             line-height: 1.6;
             position: relative;
-            
-            /* Default Scope Cursor (Cyan) */
-            cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='10' stroke='%2300f3ff' stroke-width='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='10' stroke='%2300f3ff' stroke-width='2'/%3E%3Cline x1='16' y1='22' x2='16' y2='30' stroke='%2300f3ff' stroke-width='2'/%3E%3Cline x1='2' y1='16' x2='10' y2='16' stroke='%2300f3ff' stroke-width='2'/%3E%3Cline x1='22' y1='16' x2='30' y2='16' stroke='%2300f3ff' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%2300f3ff'/%3E%3C/svg%3E") 16 16, crosshair;
         }
 
-        /* Hover State: Locked On Scope (Red) */
         a, button, .card, .nav-logo {
-            cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='12' stroke='%23ff003c' stroke-width='2'/%3E%3Cline x1='16' y1='0' x2='16' y2='8' stroke='%23ff003c' stroke-width='2'/%3E%3Cline x1='16' y1='24' x2='16' y2='32' stroke='%23ff003c' stroke-width='2'/%3E%3Cline x1='0' y1='16' x2='8' y2='16' stroke='%23ff003c' stroke-width='2'/%3E%3Cline x1='24' y1='16' x2='32' y2='16' stroke='%23ff003c' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ff003c'/%3E%3C/svg%3E") 16 16, pointer;
+            cursor: pointer;
         }
 
         /* Scroll Reveal */
@@ -149,130 +145,145 @@
             opacity: 0.4; /* Lower opacity for the grid so content is readable */
         }
 
-        /* --- HACKER LOADING SCREEN --- */
-        .hacker-loader {
+        /* --- SECURITY LOADING SCREEN --- */
+        .security-loader {
             position: fixed;
             inset: 0;
-            background: #000000;
+            background:
+                radial-gradient(circle at 50% 30%, rgba(0, 243, 255, 0.12), transparent 36%),
+                linear-gradient(135deg, #050507 0%, #080b10 52%, #050507 100%);
             z-index: 99999;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 24px;
+        }
+
+        .loader-panel {
+            width: min(92vw, 540px);
+            text-align: center;
+        }
+
+        .loader-mark {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 24px;
+            border: 1px solid rgba(0, 243, 255, 0.35);
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            color: var(--primary);
             font-family: var(--font-mono);
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 32px rgba(0, 243, 255, 0.16);
         }
 
-        .loader-terminal {
-            width: 90%;
-            max-width: 800px;
-            background: rgba(10, 10, 15, 0.95);
-            border: 2px solid var(--primary);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3),
-                        inset 0 0 20px rgba(0, 243, 255, 0.05);
+        .loader-mark::before {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
         }
 
-        .loader-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
-            margin-bottom: 20px;
+        .loader-mark::after {
+            content: '';
+            position: absolute;
+            width: 160%;
+            height: 160%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 243, 255, 0.18), transparent 34%);
+            animation: loaderRotate 3.6s linear infinite;
         }
 
-        .loader-title {
-            font-size: 1rem;
+        .loader-mark span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .loader-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
             color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .loader-title::before {
-            content: '◉';
-            color: #00ff00;
-            animation: blink 1s infinite;
-        }
-
-        .loader-status {
-            font-size: 0.85rem;
-            color: #888;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
+            margin-bottom: 12px;
         }
 
-        .loader-content {
-            height: 300px;
-            overflow-y: auto;
-            padding-right: 10px;
+        .loader-heading {
+            font-size: clamp(2rem, 7vw, 3.5rem);
+            line-height: 1;
+            font-weight: 900;
+            letter-spacing: 0;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #ffffff, var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .loader-line {
-            font-size: 0.9rem;
-            color: #00ff00;
-            margin-bottom: 8px;
-            opacity: 0;
-            animation: fadeInLine 0.3s forwards;
+        .loader-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 28px;
         }
 
-        .loader-line.error {
-            color: #ff003c;
+        .loader-focus {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 34px;
         }
 
-        .loader-line.warning {
-            color: #ffaa00;
-        }
-
-        .loader-line.info {
-            color: var(--primary);
-        }
-
-        .loader-line span {
-            color: #888;
-            margin-right: 10px;
+        .loader-focus span {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            padding: 7px 12px;
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.82rem;
         }
 
         .loader-progress {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(0, 243, 255, 0.3);
+            width: 100%;
         }
 
         .progress-text {
-            font-size: 0.9rem;
-            color: var(--primary);
-            margin-bottom: 10px;
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
+            font-family: var(--font-mono);
         }
 
         .progress-bar-container {
             width: 100%;
-            height: 4px;
-            background: rgba(0, 243, 255, 0.1);
-            border-radius: 2px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
             overflow: hidden;
             position: relative;
         }
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), #00ff00);
+            background: linear-gradient(90deg, var(--primary), #ffffff);
             width: 0%;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px var(--primary);
+            transition: width 0.28s ease;
+            box-shadow: 0 0 18px rgba(0, 243, 255, 0.45);
         }
 
-        @keyframes fadeInLine {
-            to { opacity: 1; }
+        @keyframes loaderRotate {
+            to { transform: rotate(360deg); }
         }
 
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .hacker-loader.fade-out {
+        .security-loader.fade-out {
             animation: loaderFadeOut 0.8s forwards;
         }
 
@@ -745,8 +756,8 @@
             gap: 6px;
         }
 
-        /* KALI LOGO ICON IN HEADER */
-        .kali-icon-header {
+        /* Terminal icon in header */
+        .terminal-icon-header {
             width: 20px;
             height: 20px;
             opacity: 1;
@@ -789,7 +800,7 @@
             border-radius: 4px;
         }
 
-        /* KALI WATERMARK */
+        /* Terminal watermark */
         .terminal-watermark {
             position: absolute;
             top: 50%;
@@ -1116,19 +1127,22 @@
 <body>
     <!-- Scroll Progress -->
     <div class="scroll-progress"></div>
-    <!-- Hacker Loading Screen -->
-    <div class="hacker-loader" id="hackerLoader">
-        <div class="loader-terminal">
-            <div class="loader-header">
-                <div class="loader-title">
-                    <span>root@RL_V0ID:~#</span>
-                </div>
-                <div class="loader-status" id="loaderStatus">INITIALIZING</div>
+    <!-- Security-themed Loading Screen -->
+    <div class="security-loader" id="securityLoader">
+        <div class="loader-panel">
+            <div class="loader-mark"><span>RV</span></div>
+            <div class="loader-eyebrow">Portfolio Loading</div>
+            <div class="loader-heading">RL_V0ID</div>
+            <p class="loader-subtitle">Web security practice, projects, and learning notes.</p>
+            <div class="loader-focus" aria-label="Portfolio focus areas">
+                <span>OWASP</span>
+                <span>Bug Bounty</span>
+                <span>Python</span>
+                <span>Reports</span>
             </div>
-            <div class="loader-content" id="loaderContent"></div>
             <div class="loader-progress">
                 <div class="progress-text">
-                    <span id="progressLabel">Loading system...</span>
+                    <span id="progressLabel">Preparing experience...</span>
                     <span id="progressPercent">0%</span>
                 </div>
                 <div class="progress-bar-container">
@@ -1167,7 +1181,7 @@
 
     <section id="home" class="hero">
         <h1 class="shimmer-title" data-text="RL_V0ID">RL_V0ID</h1>
-        <p class="subtitle">Web Penetration Tester & Bug Bounty Hunter</p>
+        <p class="subtitle">Web Security Student & Bug Bounty Learner</p>
         <div class="typing-container" id="typing-text"></div>
         <div class="btn-group">
             <a href="#projects" class="btn btn-primary">View My Progress</a>
@@ -1182,20 +1196,20 @@
                     <h2 class="section-title">About Me</h2>
                     <p class="section-desc">My journey into the world of bits and bytes.</p>
                 </div>
-                <p>I am a Cybersecurity Student laser-focused on <span class="highlight">Offensive Security</span>, specifically <span class="highlight">Web Application Penetration Testing</span> and <span class="highlight">Bug Bounty Hunting</span>. I'm passionate about breaking modern web technologies to make them safer.</p>
-                <p>My goal is to become a top-tier <span class="highlight">Bug Bounty Hunter</span> and <span class="highlight">Red Teamer</span>. I thrive on the thrill of the hunt, chaining vulnerabilities to demonstrate critical impact.</p>
-                <p>I spend my free time analyzing web assets, automating my reconnaissance workflow with Python/Bash, and hunting for critical vulnerabilities like <span class="highlight">IDOR</span>, <span class="highlight">SQL Injection</span>, and <span class="highlight">RCE</span> on platforms like HackerOne and Bugcrowd.</p>
+                <p>I am a Cybersecurity Student focused on <span class="highlight">Offensive Security</span>, specifically <span class="highlight">Web Application Penetration Testing</span> and <span class="highlight">Bug Bounty Hunting</span>. I'm passionate about understanding how modern web systems fail so they can be made safer.</p>
+                <p>My goal is to grow into a strong <span class="highlight">Bug Bounty Hunter</span> and <span class="highlight">Red Teamer</span>, with an emphasis on clear reporting, responsible testing, and practical impact.</p>
+                <p>I spend my free time analyzing authorized lab targets, automating my reconnaissance workflow with Python/Bash, and studying vulnerabilities like <span class="highlight">IDOR</span>, <span class="highlight">SQL Injection</span>, and <span class="highlight">Access Control</span> issues through platforms like HackerOne, Bugcrowd, TryHackMe, and HackTheBox.</p>
             </div>
             
             <!-- Interactive Terminal -->
             <div class="terminal-window" id="interactive-terminal">
                 <div class="terminal-bar">
                     <div class="terminal-header-left">
-                        <!-- KALI DRAGON LOGO -->
-                        <svg class="kali-icon-header" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Terminal icon -->
+                        <svg class="terminal-icon-header" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.2,3.4c1.5-1.1,3.5-1.3,5.1-0.6c0.4,0.2,0.8,0.4,1.2,0.7c2.3,1.7,2.9,4.8,1.3,7.2c-0.2,0.3-0.5,0.6-0.7,0.9c0.5,0.5,1.1,1.1,1.7,1.5c0.5-0.4,1-0.8,1.5-1.2c0.9-0.7,1.8-1.3,2.9-1.8c0.9-0.4,1.9-0.7,2.9-0.7c0.9,0,1.8,0.2,2.6,0.6c0.7,0.3,1.4,0.7,1.9,1.3c0.7,0.7,1.1,1.6,1.2,2.6c0.1,1-0.2,2-0.8,2.8c-0.9,1.3-2.4,2-4,2.1c-0.9,0-1.8-0.2-2.6-0.5c-1.1-0.5-2-1.3-2.8-2.2c-0.1-0.1-0.1-0.2-0.2-0.4c-0.2-0.3-0.4-0.5-0.7-0.8c-0.8-0.7-1.6-1.4-2.5-2c-0.1-0.1-0.2-0.1-0.4-0.2c-0.4,0.7-1,1.2-1.7,1.5c-0.7,0.3-1.5,0.3-2.2,0.1c-0.4-0.1-0.7-0.3-1-0.6c-0.3-0.3-0.5-0.6-0.6-0.9c-0.2-0.5-0.2-1.1,0-1.6c0.2-0.4,0.5-0.8,0.9-1c0.6-0.4,1.4-0.4,2-0.1c0.3,0.2,0.6,0.5,0.7,0.8c0.3,0.7,0.2,1.5-0.3,2.1c-0.2,0.2-0.4,0.4-0.7,0.5c0.3,0.4,0.6,0.7,1,0.9c0.8,0.5,1.8,0.8,2.7,0.8c0.8,0,1.6-0.2,2.3-0.6c0.7-0.4,1.3-1,1.7-1.7c0.4-0.6,0.5-1.4,0.4-2.1c-0.1-0.5-0.4-0.9-0.7-1.3c-0.4-0.4-0.9-0.7-1.4-0.9c-0.5-0.2-1.1-0.3-1.6-0.3c-0.5,0-1,0.1-1.5,0.3c-0.5,0.2-0.9,0.5-1.3,0.9c-0.4,0.4-0.7,0.8-1,1.3c-0.3,0.5-0.6,1-0.8,1.6c-0.3,0.6-0.6,1.2-1,1.7c-0.4,0.5-0.9,0.9-1.4,1.2c-0.8,0.5-1.8,0.6-2.7,0.4c-0.6-0.1-1.2-0.4-1.7-0.9c-0.5-0.4-0.9-1-1.1-1.6c-0.1-0.4-0.2-0.9-0.2-1.3c0-0.5,0.1-0.9,0.2-1.4c0.3-0.8,0.8-1.5,1.4-2.1c1-0.9,2.3-1.3,3.6-1.1c0.9,0.1,1.8,0.5,2.5,1c0.7,0.5,1.2,1.2,1.6,2c0.1,0.3,0.2,0.6,0.3,0.9c-0.2-0.3-0.4-0.5-0.6-0.8c-0.4-0.5-0.8-0.9-1.4-1.2c-0.5-0.3-1.1-0.5-1.7-0.5c-0.6,0-1.1,0.2-1.6,0.5c-0.4,0.3-0.7,0.7-1,1.2c-0.2,0.4-0.3,0.9-0.3,1.4c0,0.4,0.1,0.8,0.3,1.2c0.2,0.3,0.5,0.6,0.9,0.8c0.5,0.2,1,0.3,1.6,0.2c0.5-0.1,1-0.3,1.4-0.6c0.4-0.3,0.8-0.7,1.1-1.1c0.3-0.4,0.6-0.9,0.8-1.3c0.2-0.5,0.5-0.9,0.8-1.3c0.6-0.8,1.4-1.4,2.3-1.8c0.7-0.3,1.5-0.4,2.3-0.3c0.9,0.1,1.8,0.5,2.5,1.1c0.6,0.6,1,1.3,1.2,2.1c0.1,0.5,0.1,1.1-0.1,1.6c-0.1,0.3-0.3,0.6-0.6,0.8c-0.3,0.2-0.6,0.4-1,0.4c-0.3,0.1-0.7,0-1-0.1c-0.3-0.1-0.5-0.3-0.7-0.6c-0.2-0.2-0.3-0.5-0.3-0.8c0-0.2,0.1-0.5,0.2-0.7c0.1-0.1,0.3-0.2,0.5-0.3c0.2-0.1,0.4-0.1,0.6-0.1c0.2,0,0.4,0.1,0.5,0.2c0.2,0.1,0.3,0.3,0.3,0.5c0.1,0.2,0.1,0.5,0,0.7c-0.1,0.2-0.2,0.3-0.4,0.4c-0.2,0.1-0.4,0.1-0.6,0.1c-0.3,0-0.6-0.2-0.7-0.5c-0.1-0.2-0.1-0.5,0-0.7c0.1-0.2,0.3-0.3,0.5-0.4c0.2-0.1,0.4-0.1,0.7-0.1c0.4,0.1,0.7,0.3,0.9,0.6c0.2,0.3,0.2,0.7,0.1,1.1c-0.1,0.3-0.3,0.5-0.6,0.7c-0.3,0.2-0.6,0.2-0.9,0.2c-0.5-0.1-0.9-0.3-1.2-0.7c-0.3-0.3-0.4-0.7-0.5-1.1c-0.1-0.6,0.1-1.2,0.4-1.7c0.4-0.5,0.9-0.9,1.5-1.1c0.7-0.3,1.5-0.3,2.2-0.1c0.6,0.2,1.1,0.6,1.5,1.1c0.3,0.4,0.5,1,0.5,1.5c0,0.4-0.1,0.9-0.3,1.3c-0.2,0.4-0.5,0.7-0.9,1c-0.5,0.3-1,0.5-1.6,0.5c-0.5,0-1-0.1-1.4-0.4c-0.4-0.2-0.7-0.6-0.9-1c-0.1-0.3-0.2-0.6-0.2-1c0-0.3,0.1-0.6,0.2-0.9c0.1-0.2,0.3-0.4,0.5-0.5c0.2-0.1,0.4-0.2,0.6-0.2c0.3,0,0.5,0.1,0.7,0.3c0.2,0.1,0.3,0.4,0.3,0.6c0,0.2-0.1,0.5-0.2,0.7c-0.1,0.2-0.3,0.3-0.6,0.3c-0.2,0-0.4-0.1-0.6-0.2c-0.1-0.1-0.2-0.3-0.2-0.5c0-0.2,0.1-0.3,0.2-0.5c0.1-0.1,0.3-0.2,0.5-0.2c0.1,0,0.2,0,0.3,0.1c0.1,0.1,0.1,0.2,0.1,0.3c0,0.1-0.1,0.2-0.2,0.2c-0.1,0.1-0.2,0.1-0.3,0.1c-0.1,0-0.2-0.1-0.3-0.2c-0.1-0.1-0.1-0.2-0.1-0.4c0-0.1,0.1-0.2,0.2-0.2c0.1-0.1,0.2-0.1,0.3-0.1c0.2,0,0.3,0.1,0.4,0.2c0.1,0.1,0.1,0.3,0.1,0.5c0,0.2-0.1,0.3-0.2,0.4c-0.1,0.1-0.3,0.2-0.5,0.1c-0.2,0-0.3-0.1-0.4-0.3c-0.1-0.1-0.1-0.3-0.1-0.5c0-0.2,0.1-0.4,0.3-0.5c0.2-0.1,0.4-0.2,0.6-0.1c0.3,0,0.5,0.2,0.7,0.4c0.2,0.2,0.2,0.5,0.2,0.8c-0.1,0.3-0.2,0.5-0.5,0.7c-0.2,0.2-0.5,0.2-0.8,0.2c-0.3,0-0.6-0.2-0.8-0.4c-0.2-0.3-0.3-0.6-0.3-0.9c0-0.4,0.1-0.8,0.4-1.1c0.3-0.3,0.6-0.5,1-0.6c0.4-0.1,0.8-0.1,1.2,0.1c0.4,0.2,0.7,0.5,0.9,0.8c0.2,0.3,0.3,0.7,0.3,1.1c0,0.4-0.1,0.8-0.3,1.1c-0.2,0.3-0.5,0.6-0.9,0.7c-0.4,0.2-0.8,0.2-1.2,0.1c-0.4-0.1-0.7-0.4-0.9-0.7c-0.2-0.3-0.3-0.7-0.3-1.1c0-0.3,0.1-0.6,0.3-0.9c0.2-0.2,0.5-0.4,0.8-0.5c0.3-0.1,0.6-0.1,0.9,0c0.3,0.1,0.5,0.3,0.7,0.6c0.2,0.3,0.2,0.6,0.2,0.9c0,0.3-0.1,0.6-0.3,0.8c-0.2,0.2-0.5,0.4-0.8,0.4c-0.3,0.1-0.6,0-0.8-0.1c-0.3-0.2-0.5-0.4-0.6-0.7c-0.1-0.2-0.1-0.5,0-0.8c0.1-0.2,0.2-0.4,0.5-0.5c0.2-0.1,0.5-0.1,0.7,0c0.2,0.1,0.4,0.2,0.5,0.4c0.1,0.2,0.1,0.5,0.1,0.7c0,0.2-0.1,0.4-0.3,0.6c-0.1,0.1-0.3,0.2-0.5,0.2c-0.2,0-0.4-0.1-0.6-0.2c-0.1-0.1-0.2-0.3-0.2-0.5c0-0.2,0.1-0.4,0.2-0.5c0.1-0.1,0.3-0.2,0.5-0.2c0.2,0,0.3,0.1,0.4,0.2c0.1,0.1,0.2,0.3,0.2,0.5c0,0.1-0.1,0.3-0.2,0.4c-0.1,0.1-0.2,0.1-0.4,0.1c-0.1,0-0.2-0.1-0.3-0.2c-0.1-0.1-0.1-0.2-0.1-0.3c0-0.1,0-0.2,0.1-0.3c0.1-0.1,0.2-0.1,0.3-0.1c0.1,0,0.2,0.1,0.3,0.1c0.1,0.1,0.1,0.2,0.1,0.3c0,0.1,0,0.2-0.1,0.2c-0.1,0.1-0.1,0.1-0.2,0.1c-0.1,0-0.2,0-0.3-0.1c-0.1-0.1-0.1-0.2-0.1-0.3c0-0.1,0.1-0.2,0.2-0.2c0.1-0.1,0.2-0.1,0.3-0.1c0.1,0,0.2,0.1,0.2,0.2c0,0.1,0,0.2-0.1,0.3c-0.1,0.1-0.1,0.1-0.2,0.1c-0.1,0-0.2,0-0.2-0.1C5.3,3.6,5.2,3.5,5.2,3.4z" fill="#00f3ff"/>
                         </svg>
-                        <span class="terminal-title">root@kali:~</span>
+                        <span class="terminal-title">visitor@portfolio:~</span>
                     </div>
                     
                     <div class="terminal-header-right">
@@ -1204,13 +1218,13 @@
                         <div class="dot red"></div>
                     </div>
                 </div>
-                <!-- KALI DRAGON WATERMARK -->
+                <!-- Terminal watermark -->
                 <svg class="terminal-watermark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.2,3.4c1.5-1.1,3.5-1.3,5.1-0.6c0.4,0.2,0.8,0.4,1.2,0.7c2.3,1.7,2.9,4.8,1.3,7.2c-0.2,0.3-0.5,0.6-0.7,0.9c0.5,0.5,1.1,1.1,1.7,1.5c0.5-0.4,1-0.8,1.5-1.2c0.9-0.7,1.8-1.3,2.9-1.8c0.9-0.4,1.9-0.7,2.9-0.7c0.9,0,1.8,0.2,2.6,0.6c0.7,0.3,1.4,0.7,1.9,1.3c0.7,0.7,1.1,1.6,1.2,2.6c0.1,1-0.2,2-0.8,2.8c-0.9,1.3-2.4,2-4,2.1c-0.9,0-1.8-0.2-2.6-0.5c-1.1-0.5-2-1.3-2.8-2.2c-0.1-0.1-0.1-0.2-0.2-0.4c-0.2-0.3-0.4-0.5-0.7-0.8c-0.8-0.7-1.6-1.4-2.5-2c-0.1-0.1-0.2-0.1-0.4-0.2c-0.4,0.7-1,1.2-1.7,1.5c-0.7,0.3-1.5,0.3-2.2,0.1c-0.4-0.1-0.7-0.3-1-0.6c-0.3-0.3-0.5-0.6-0.6-0.9c-0.2-0.5-0.2-1.1,0-1.6c0.2-0.4,0.5-0.8,0.9-1c0.6-0.4,1.4-0.4,2-0.1c0.3,0.2,0.6,0.5,0.7,0.8c0.3,0.7,0.2,1.5-0.3,2.1c-0.2,0.2-0.4,0.4-0.7,0.5c0.3,0.4,0.6,0.7,1,0.9c0.8,0.5,1.8,0.8,2.7,0.8c0.8,0,1.6-0.2,2.3-0.6c0.7-0.4,1.3-1,1.7-1.7c0.4-0.6,0.5-1.4,0.4-2.1c-0.1-0.5-0.4-0.9-0.7-1.3c-0.4-0.4-0.9-0.7-1.4-0.9c-0.5-0.2-1.1-0.3-1.6-0.3c-0.5,0-1,0.1-1.5,0.3c-0.5,0.2-0.9,0.5-1.3,0.9c-0.4,0.4-0.7,0.8-1,1.3c-0.3,0.5-0.6,1-0.8,1.6c-0.3,0.6-0.6,1.2-1,1.7c-0.4,0.5-0.9,0.9-1.4,1.2c-0.8,0.5-1.8,0.6-2.7,0.4c-0.6-0.1-1.2-0.4-1.7-0.9c-0.5-0.4-0.9-1-1.1-1.6c-0.1-0.4-0.2-0.9-0.2-1.3c0-0.5,0.1-0.9,0.2-1.4c0.3-0.8,0.8-1.5,1.4-2.1c1-0.9,2.3-1.3,3.6-1.1c0.9,0.1,1.8,0.5,2.5,1c0.7,0.5,1.2,1.2,1.6,2c0.1,0.3,0.2,0.6,0.3,0.9c-0.2-0.3-0.4-0.5-0.6-0.8c-0.4-0.5-0.8-0.9-1.4-1.2c-0.5-0.3-1.1-0.5-1.7-0.5c-0.6,0-1.1,0.2-1.6,0.5c-0.4,0.3-0.7,0.7-1,1.2c-0.2,0.4-0.3,0.9-0.3,1.4c0,0.4,0.1,0.8,0.3,1.2c0.2,0.3,0.5,0.6,0.9,0.8c0.5,0.2,1,0.3,1.6,0.2c0.5-0.1,1-0.3,1.4-0.6c0.4-0.3,0.8-0.7,1.1-1.1c0.3-0.4,0.6-0.9,0.8-1.3c0.2-0.5,0.5-0.9,0.8-1.3c0.6-0.8,1.4-1.4,2.3-1.8c0.7-0.3,1.5-0.4,2.3-0.3c0.9,0.1,1.8,0.5,2.5,1.1c0.6,0.6,1,1.3,1.2,2.1c0.1,0.5,0.1,1.1-0.1,1.6c-0.1,0.3-0.3,0.6-0.6,0.8c-0.3,0.2-0.6,0.4-1,0.4c-0.3,0.1-0.7,0-1-0.1c-0.3-0.1-0.5-0.3-0.7-0.6c-0.2-0.2-0.3-0.5-0.3-0.8c0-0.2,0.1-0.5,0.2-0.7c0.1-0.1,0.3-0.2,0.5-0.3c0.2-0.1,0.4-0.1,0.6-0.1c0.2,0,0.4,0.1,0.5,0.2c0.2,0.1,0.3,0.3,0.3,0.5c0.1,0.2,0.1,0.5,0,0.7c-0.1,0.2-0.2,0.3-0.4,0.4c-0.2,0.1-0.4,0.1-0.6,0.1c-0.3,0-0.6-0.2-0.7-0.5c-0.1-0.2-0.1-0.5,0-0.7c0.1-0.2,0.3-0.3,0.5-0.4c0.2-0.1,0.4-0.1,0.7-0.1c0.4,0.1,0.7,0.3,0.9,0.6c0.2,0.3,0.2,0.7,0.1,1.1c-0.1,0.3-0.3,0.5-0.6,0.7c-0.3,0.2-0.6,0.2-0.9,0.2c-0.5-0.1-0.9-0.3-1.2-0.7c-0.3-0.3-0.4-0.7-0.5-1.1c-0.1-0.6,0.1-1.2,0.4-1.7c0.4-0.5,0.9-0.9,1.5-1.1c0.7-0.3,1.5-0.3,2.2-0.1c0.6,0.2,1.1,0.6,1.5,1.1c0.3,0.4,0.5,1,0.5,1.5c0,0.4-0.1,0.9-0.3,1.3c-0.2,0.4-0.5,0.7-0.9,1c-0.5,0.3-1,0.5-1.6,0.5c-0.5,0-1-0.1-1.4-0.4c-0.4-0.2-0.7-0.6-0.9-1c-0.1-0.3-0.2-0.6-0.2-1c0-0.3,0.1-0.6,0.2-0.9c0.1-0.2,0.3-0.4,0.5-0.5c0.2-0.1,0.4-0.2,0.6-0.2c0.3,0,0.5,0.1,0.7,0.3c0.2,0.1,0.3,0.4,0.3,0.6c0,0.2-0.1,0.5-0.2,0.7c-0.1,0.2-0.3,0.3-0.6,0.3c-0.2,0-0.4-0.1-0.6-0.2c-0.1-0.1-0.2-0.3-0.2-0.5c0-0.2,0.1-0.3,0.2-0.5c0.1-0.1,0.3-0.2,0.5-0.2c0.1,0,0.2,0,0.3,0.1c0.1,0.1,0.1,0.2,0.1,0.3c0,0.1-0.1,0.2-0.2,0.2c-0.1,0.1-0.2,0.1-0.3,0.1c-0.1,0-0.2-0.1-0.3-0.2c-0.1-0.1-0.1-0.2-0.1-0.4c0-0.1,0.1-0.2,0.2-0.2c0.1-0.1,0.2-0.1,0.3-0.1c0.2,0,0.3,0.1,0.4,0.2c0.1,0.1,0.1,0.3,0.1,0.5c0,0.2-0.1,0.3-0.2,0.4c-0.1,0.1-0.3,0.2-0.5,0.1c-0.2,0-0.3-0.1-0.4-0.3c-0.1-0.1-0.1-0.3-0.1-0.5c0-0.2,0.1-0.4,0.3-0.5c0.2-0.1,0.4-0.2,0.6-0.1c0.3,0,0.5,0.2,0.7,0.4c0.2,0.2,0.2,0.5,0.2,0.8c-0.1,0.3-0.2,0.5-0.5,0.7c-0.2,0.2-0.5,0.2-0.8,0.2c-0.3,0-0.6-0.2-0.8-0.4c-0.2-0.3-0.3-0.6-0.3-0.9c0-0.4,0.1-0.8,0.4-1.1c0.3-0.3,0.6-0.5,1-0.6c0.4-0.1,0.8-0.1,1.2,0.1c0.4,0.2,0.7,0.5,0.9,0.8c0.2,0.3,0.3,0.7,0.3,1.1c0,0.4-0.1,0.8-0.3,1.1c-0.2,0.3-0.5,0.6-0.9,0.7c-0.4,0.2-0.8,0.2-1.2,0.1c-0.4-0.1-0.7-0.4-0.9-0.7c-0.2-0.3-0.3-0.7-0.3-1.1c0-0.3,0.1-0.6,0.3-0.9c0.2-0.2,0.5-0.4,0.8-0.5c0.3-0.1,0.6-0.1,0.9,0c0.3,0.1,0.5,0.3,0.7,0.6c0.2,0.3,0.2,0.6,0.2,0.9c0,0.3-0.1,0.6-0.3,0.8c-0.2,0.2-0.5,0.4-0.8,0.4c-0.3,0.1-0.6,0-0.8-0.1c-0.3-0.2-0.5-0.4-0.6-0.7c-0.1-0.2-0.1-0.5,0-0.8c0.1-0.2,0.2-0.4,0.5-0.5c0.2-0.1,0.5-0.1,0.7,0c0.2,0.1,0.4,0.2,0.5,0.4c0.1,0.2,0.1,0.5,0.1,0.7c0,0.2-0.1,0.4-0.3,0.6c-0.1,0.1-0.3,0.2-0.5,0.2c-0.2,0-0.4-0.1-0.6-0.2c-0.1-0.1-0.2-0.3-0.2-0.5c0-0.2,0.1-0.4,0.2-0.5c0.1-0.1,0.3-0.2,0.5-0.2c0.2,0,0.3,0.1,0.4,0.2c0.1,0.1,0.2,0.3,0.2,0.5c0,0.1-0.1,0.3-0.2,0.4c-0.1,0.1-0.2,0.1-0.4,0.1c-0.1,0-0.2-0.1-0.3-0.2c-0.1-0.1-0.1-0.2-0.1-0.3c0-0.1,0-0.2,0.1-0.3c0.1-0.1,0.2-0.1,0.3-0.1c0.1,0,0.2,0.1,0.3,0.1c0.1,0.1,0.1,0.2,0.1,0.3c0,0.1,0,0.2-0.1,0.2c-0.1,0.1-0.1,0.1-0.2,0.1c-0.1,0-0.2,0-0.3-0.1c-0.1-0.1-0.1-0.2-0.1-0.3c0-0.1,0.1-0.2,0.2-0.2c0.1-0.1,0.2-0.1,0.3-0.1c0.1,0,0.2,0.1,0.2,0.2c0,0.1,0,0.2-0.1,0.3c-0.1,0.1-0.1,0.1-0.2,0.1c-0.1,0-0.2,0-0.2-0.1C5.3,3.6,5.2,3.5,5.2,3.4z" fill="#00f3ff"/>
                 </svg>
                 <div class="terminal-body" id="terminal-output">
                     <div class="output">
-                        <span class="text-primary">Kali GNU/Linux Rolling</span><br>
+                        <span class="text-primary">RL_V0ID Portfolio Console</span><br>
                         <span class="output">Type 'help' to see available commands.</span>
                     </div>
                     <!-- Dynamic input line -->
@@ -1229,12 +1243,12 @@
             <div class="stat-item">
                 <i class="fas fa-bug stat-icon"></i>
                 <span class="stat-number" data-target="37">0</span>
-                <div class="stat-label">Bugs Found</div>
+                <div class="stat-label">Labs Completed</div>
             </div>
             <div class="stat-item">
                 <i class="fas fa-shield-alt stat-icon"></i>
                 <span class="stat-number" data-target="12">0</span>
-                <div class="stat-label">CVEs Reported</div>
+                <div class="stat-label">Reports Written</div>
             </div>
             <div class="stat-item">
                 <i class="fas fa-flag stat-icon"></i>
@@ -1244,7 +1258,7 @@
             <div class="stat-item">
                 <i class="fas fa-code stat-icon"></i>
                 <span class="stat-number" data-target="28">0</span>
-                <div class="stat-label">Scripts Written</div>
+                <div class="stat-label">Practice Scripts</div>
             </div>
         </div>
     </div>
@@ -1258,7 +1272,7 @@
             <div class="card reveal">
                 <div class="card-icon"><i class="fas fa-globe"></i></div>
                 <h3>Web Exploitation & OWASP</h3>
-                <p>Deep diving into OWASP Top 10, advanced vulnerabilities (SQLi, XSS, SSRF), and bypassing WAFs.</p>
+                <p>Deep diving into OWASP Top 10, common vulnerability classes (SQLi, XSS, SSRF), and secure testing methodology.</p>
                 <div class="tags">
                     <span class="tag">Burp Suite</span>
                     <span class="tag">OWASP</span>
@@ -1304,7 +1318,7 @@
             <div class="card reveal">
                 <div class="card-icon"><i class="fab fa-linux"></i></div>
                 <h3>Linux Mastery</h3>
-                <p>Advanced command line usage, piping, grep/sed/awk manipulation for large data sets.</p>
+                <p>Building command-line confidence with piping, grep/sed/awk, and working with larger data sets.</p>
                 <div class="tags">
                     <span class="tag">Kali</span>
                     <span class="tag">Shell</span>
@@ -1316,19 +1330,19 @@
     <!-- Skills Grid Section -->
     <section class="skills-section container reveal">
         <div class="section-header">
-            <h2 class="section-title">Tech Arsenal</h2>
-            <p class="section-desc">Tools and technologies I work with daily</p>
+            <h2 class="section-title">Tools & Skills</h2>
+            <p class="section-desc">Tools and technologies I'm actively practicing with</p>
         </div>
         <div class="skills-grid">
             <div class="skill-card reveal">
                 <div class="skill-icon"><i class="fab fa-python"></i></div>
                 <div class="skill-name">Python</div>
-                <div class="skill-level">Advanced</div>
+                <div class="skill-level">Comfortable</div>
             </div>
             <div class="skill-card reveal">
                 <div class="skill-icon"><i class="fas fa-terminal"></i></div>
                 <div class="skill-name">Bash</div>
-                <div class="skill-level">Advanced</div>
+                <div class="skill-level">Comfortable</div>
             </div>
             <div class="skill-card reveal">
                 <div class="skill-icon"><i class="fab fa-js"></i></div>
@@ -1336,29 +1350,29 @@
                 <div class="skill-level">Intermediate</div>
             </div>
             <div class="skill-card reveal">
-                <div class="skill-icon"><i class="fas fa-fire"></i></div>
+                <div class="skill-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
                 <div class="skill-name">Burp Suite</div>
-                <div class="skill-level">Expert</div>
+                <div class="skill-level">Practicing</div>
             </div>
             <div class="skill-card reveal">
                 <div class="skill-icon"><i class="fas fa-network-wired"></i></div>
                 <div class="skill-name">Nmap</div>
-                <div class="skill-level">Advanced</div>
+                <div class="skill-level">Comfortable</div>
             </div>
             <div class="skill-card reveal">
                 <div class="skill-icon"><i class="fas fa-database"></i></div>
-                <div class="skill-name">SQLMap</div>
-                <div class="skill-level">Advanced</div>
+                <div class="skill-name">SQL Testing</div>
+                <div class="skill-level">Practicing</div>
             </div>
             <div class="skill-card reveal">
-                <div class="skill-icon"><i class="fas fa-bomb"></i></div>
-                <div class="skill-name">Metasploit</div>
+                <div class="skill-icon"><i class="fas fa-file-shield"></i></div>
+                <div class="skill-name">Report Writing</div>
                 <div class="skill-level">Intermediate</div>
             </div>
             <div class="skill-card reveal">
                 <div class="skill-icon"><i class="fas fa-search"></i></div>
                 <div class="skill-name">Recon-ng</div>
-                <div class="skill-level">Advanced</div>
+                <div class="skill-level">Learning</div>
             </div>
             <div class="skill-card reveal">
                 <div class="skill-icon"><i class="fab fa-github"></i></div>
@@ -1373,12 +1387,12 @@
             <div class="skill-card reveal">
                 <div class="skill-icon"><i class="fab fa-linux"></i></div>
                 <div class="skill-name">Kali Linux</div>
-                <div class="skill-level">Expert</div>
+                <div class="skill-level">Comfortable</div>
             </div>
             <div class="skill-card reveal">
                 <div class="skill-icon"><i class="fas fa-shield-virus"></i></div>
                 <div class="skill-name">Wireshark</div>
-                <div class="skill-level">Advanced</div>
+                <div class="skill-level">Practicing</div>
             </div>
         </div>
     </section>
@@ -1386,42 +1400,51 @@
     <section id="projects" class="container">
         <div class="section-header">
             <h2 class="section-title">Projects & Labs</h2>
-            <p class="section-desc">Hands-on work to apply what I'm learning.</p>
+            <p class="section-desc">Small builds, practice labs, and notes from what I'm learning.</p>
         </div>
         <div class="grid-3">
             
             <div class="card reveal">
-                <h3><i class="fas fa-microchip text-primary"></i> CyberSentinel Pro</h3>
-                <p>A robust, interactive security suite featuring a modular CLI menu. Capabilities include Network & Web Reconnaissance, Password & Crypto Analysis, Wireless Audits, Full Security Audits, Threat Intelligence, and Compliance Checks.</p>
+                <h3><i class="fas fa-shield-halved text-primary"></i> HTTP Security Header Analyzer</h3>
+                <p>A Python terminal tool that checks important HTTP security headers, follows redirects, blocks private/local targets for safety, grades the result, and explains fixes in a clear colorized report.</p>
                 <div class="tags">
                     <span class="tag">Python</span>
-                    <span class="tag">Interactive Mode</span>
-                    <span class="tag">Full Audit</span>
+                    <span class="tag">HTTP Headers</span>
+                    <span class="tag">CLI Reports</span>
+                </div>
+            </div>
+
+            <div class="card reveal">
+                <h3><i class="fas fa-terminal text-primary"></i> Security Practice Toolkit</h3>
+                <p>A Python CLI project where I organize small utilities for recon notes, password checks, hash practice, and basic web security workflows. Built mainly to practice clean menus, file handling, and reusable functions.</p>
+                <div class="tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">CLI</span>
+                    <span class="tag">Practice Tooling</span>
                 </div>
             </div>
 
             <div class="card reveal">
                 <h3><i class="fas fa-lock text-primary"></i> Local Password Strength Checker</h3>
-                <p>A real-time Streamlit app that analyzes password strength, provides actionable suggestions, and visual feedback to help users create secure passwords that run fully on local infrastructure.</p>
+                <p>A Streamlit app that checks password strength locally and explains weak patterns like short length, repeated characters, and missing character variety.</p>
                 <div class="tags">
                     <span class="tag">Streamlit</span>
-                    <span class="tag">Data Analysis</span>
+                    <span class="tag">Local App</span>
                 </div>
             </div>
 
             <div class="card reveal">
-                <h3><i class="fas fa-search-location text-primary"></i> OSINT Reconnaissance Tool</h3>
-                <p>A Python-based OSINT scanner that consolidates features from multiple tools like Sherlock to find and map deep digital footprints across various platforms and social media sites.</p>
+                <h3><i class="fas fa-search text-primary"></i> Public Profile Lookup</h3>
+                <p>A Python script for practicing safe username checks across public sources. The focus is on input handling, readable output, and understanding how OSINT tools structure results.</p>
                 <div class="tags">
                     <span class="tag">Python</span>
-                    <span class="tag">API Scraping</span>
+                    <span class="tag">Public Data</span>
                 </div>
             </div>
 
             <div class="card reveal">
                 <h3><i class="fas fa-flag text-primary"></i> CTF Writeups</h3>
-                <p>Detailed walkthroughs of machines I've solved on TryHackMe and HackTheBox. Documenting my thought
-                    process.</p>
+                <p>Notes from TryHackMe and HackTheBox rooms, focused on what I tried, what failed, and what I learned from each step.</p>
                 <div class="tags">
                     <span class="tag">Documentation</span>
                     <span class="tag">Learning</span>
@@ -1429,7 +1452,7 @@
             </div>
             <div class="card reveal">
                 <h3><i class="fas fa-laptop-code text-primary"></i> Python Port Scanner</h3>
-                <p>A simple multi-threaded port scanner built from scratch to understand socket programming.</p>
+                <p>A small socket-programming project for understanding ports, timeouts, basic threading, and responsible scanning in lab environments.</p>
                 <div class="tags">
                     <span class="tag">Python</span>
                     <span class="tag">Networking</span>
@@ -1441,20 +1464,20 @@
     <section id="contact" class="container">
         <div class="section-header">
             <h2 class="section-title">Connect With Me</h2>
-            <p class="section-desc">Have a question or want to work together? Send a transmission.</p>
+            <p class="section-desc">Have a question or want to work together? Send me a message.</p>
         </div>
         <div class="contact-wrapper reveal">
             <form class="contact-form" id="contact-form">
-                <input type="text" class="form-input" id="contact-name" placeholder="Codename / Name" required>
-                <input type="email" class="form-input" id="contact-email" placeholder="Secure Frequency / Email" required>
-                <textarea class="form-input" id="contact-message" rows="5" placeholder="Encrypted Message..." required></textarea>
-                <button type="submit" class="btn btn-primary">Send Transmission</button>
+                <input type="text" class="form-input" id="contact-name" placeholder="Name" required>
+                <input type="email" class="form-input" id="contact-email" placeholder="Email" required>
+                <textarea class="form-input" id="contact-message" rows="5" placeholder="Message..." required></textarea>
+                <button type="submit" class="btn btn-primary">Send Message</button>
             </form>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2025 RL_V0ID. Securing the future, one byte at a time.</p>
+        <p>&copy; 2025 RL_V0ID. Learning, building, and practicing responsible security.</p>
     </footer>
 
     <!-- Back to Top Button -->
@@ -1463,70 +1486,32 @@
     </button>
 
     <script>
-        // Hacker Loading Screen
-        function initHackerLoader() {
-            const loader = document.getElementById('hackerLoader');
-            const content = document.getElementById('loaderContent');
-            const status = document.getElementById('loaderStatus');
+        // Security-themed loading screen
+        function initSecurityLoader() {
+            const loader = document.getElementById('securityLoader');
             const progressBar = document.getElementById('progressBar');
             const progressPercent = document.getElementById('progressPercent');
             const progressLabel = document.getElementById('progressLabel');
 
-            const logs = [
-                { text: 'Initializing secure connection...', type: 'info', delay: 200 },
-                { text: 'Checking system integrity...', type: '', delay: 400 },
-                { text: 'Loading encryption modules...', type: '', delay: 300 },
-                { text: 'Verifying SSL certificates...', type: 'info', delay: 500 },
-                { text: 'Establishing VPN tunnel...', type: '', delay: 350 },
-                { text: 'Bypassing firewall protocols...', type: 'warning', delay: 450 },
-                { text: 'Scanning for vulnerabilities...', type: '', delay: 300 },
-                { text: 'Loading exploit database...', type: 'info', delay: 400 },
-                { text: 'Initializing Kali tools...', type: '', delay: 350 },
-                { text: 'Configuring Burp Suite...', type: '', delay: 300 },
-                { text: 'Loading Metasploit Framework...', type: 'info', delay: 400 },
-                { text: 'Setting up Nmap scanner...', type: '', delay: 350 },
-                { text: 'Preparing SQLmap injection tools...', type: '', delay: 300 },
-                { text: 'Initializing payload generators...', type: 'warning', delay: 450 },
-                { text: 'Loading XSS detection modules...', type: '', delay: 300 },
-                { text: 'Configuring network interfaces...', type: '', delay: 350 },
-                { text: 'Establishing anonymous routing...', type: 'info', delay: 400 },
-                { text: 'Decrypting secure vault...', type: 'warning', delay: 500 },
-                { text: 'Loading portfolio data...', type: 'info', delay: 350 },
-                { text: 'All systems ready.', type: 'info', delay: 300 }
+            const states = [
+                { at: 0, label: 'Preparing experience...' },
+                { at: 28, label: 'Loading projects...' },
+                { at: 55, label: 'Setting up interactions...' },
+                { at: 78, label: 'Polishing interface...' },
+                { at: 100, label: 'Ready.' }
             ];
 
             let progress = 0;
-            let logIndex = 0;
-
-            function addLog(log) {
-                const line = document.createElement('div');
-                line.className = `loader-line ${log.type}`;
-                const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
-                line.innerHTML = `<span>[${timestamp}]</span> ${log.text}`;
-                content.appendChild(line);
-                content.scrollTop = content.scrollHeight;
-            }
 
             function updateProgress() {
-                progress += Math.random() * 8 + 2;
+                progress += Math.random() * 12 + 7;
                 if (progress > 100) progress = 100;
                 
                 progressBar.style.width = progress + '%';
                 progressPercent.textContent = Math.floor(progress) + '%';
-
-                if (progress < 30) {
-                    status.textContent = 'CONNECTING';
-                    progressLabel.textContent = 'Establishing connection...';
-                } else if (progress < 60) {
-                    status.textContent = 'LOADING';
-                    progressLabel.textContent = 'Loading modules...';
-                } else if (progress < 90) {
-                    status.textContent = 'CONFIGURING';
-                    progressLabel.textContent = 'Configuring environment...';
-                } else {
-                    status.textContent = 'COMPLETE';
-                    progressLabel.textContent = 'System ready!';
-                }
+                progressLabel.textContent = states.reduce((current, state) => {
+                    return progress >= state.at ? state.label : current;
+                }, states[0].label);
 
                 if (progress >= 100) {
                     setTimeout(() => {
@@ -1538,20 +1523,16 @@
                 }
             }
 
-            function runLoader() {
-                if (logIndex < logs.length) {
-                    addLog(logs[logIndex]);
-                    updateProgress();
-                    logIndex++;
-                    setTimeout(runLoader, logs[logIndex - 1]?.delay || 300);
+            const loaderInterval = setInterval(() => {
+                updateProgress();
+                if (progress >= 100) {
+                    clearInterval(loaderInterval);
                 }
-            }
-
-            setTimeout(runLoader, 500);
+            }, 220);
         }
 
         // Initialize loader on page load
-        initHackerLoader();
+        initSecurityLoader();
 
         // Back to Top Button
         const backToTopBtn = document.getElementById('backToTop');
@@ -1730,7 +1711,7 @@
 
         // Typing Effect - Realistic Typewriter
         const textElement = document.getElementById('typing-text');
-        const texts = ['Web Penetration Tester', 'Bug Bounty Hunter', 'Red Teamer', 'Python Developer'];
+        const texts = ['Web Security Learner', 'Bug Bounty Practice', 'Red Team Fundamentals', 'Python Developer'];
         let count = 0;
         let index = 0;
         let currentText = '';
@@ -1861,10 +1842,10 @@
             });
         });
         
-        // Dynamic Tab Title - Enhancement
+        // Dynamic tab title
         const originalTitle = document.title;
         window.addEventListener('blur', () => {
-            document.title = 'Signal Lost... ⚠️';
+            document.title = 'RL_V0ID | Portfolio';
         });
         window.addEventListener('focus', () => {
             document.title = originalTitle;
@@ -1882,8 +1863,8 @@
 
         const commands = {
             help: "Available commands: <span class='text-primary'>help, whoami, projects, socials, scan, clear</span>",
-            whoami: "RL_V0ID. Bug Hunter. Breaker of things. Fixing the web one vuln at a time.",
-            projects: "Listing Projects...<br>- CyberSentinel Pro [Interactive Suite]<br>- Password Strength Checker<br>- OSINT Recon Tool<br>- Port Scanner",
+            whoami: "RL_V0ID. Cybersecurity student focused on web app testing, bug bounty, and clean vulnerability reports.",
+            projects: "Projects & Labs:<br>- HTTP Security Header Analyzer<br>- Security Practice Toolkit<br>- Local Password Strength Checker<br>- Public Profile Lookup<br>- CTF Notes<br>- Python Port Scanner",
             socials: "Contact: <a href='mailto:itzmerl588@gmail.com' style='color:var(--primary)'>itzmerl588@gmail.com</a>",
             clear: "clear",
             scan: "scanning" 
@@ -1896,7 +1877,11 @@
 
                 // Create previous line element
                 const prevLine = document.createElement('div');
-                prevLine.innerHTML = `<span class="path">guest@rl_void:~$</span> ${this.value}`;
+                const prevPrompt = document.createElement('span');
+                prevPrompt.className = 'path';
+                prevPrompt.textContent = 'guest@rl_void:~$';
+                prevLine.appendChild(prevPrompt);
+                prevLine.appendChild(document.createTextNode(` ${this.value}`));
                 
                 // Handle command
                 if (input in commands) {
@@ -1910,16 +1895,26 @@
                         this.value = '';
                         return;
                     } else if (input === 'scan') {
-                        response = "<span style='color:#e0e0e0'>Initializing masscan...</span><br>";
-                        // Simulated delay effect could be added here, keeping it simple for now
-                        response += "<span style='color:var(--primary)'>[+] Target Acquired: 192.168.1.1</span><br>";
-                        response += "<span style='color:var(--secondary)'>[*] Scanning ports... </span><br>";
-                        response += "<span style='color:#27c93f'>[!] Open Port: 80 (HTTP) - VULNERABLE</span>";
+                        response = "<span style='color:#e0e0e0'>Running lab scan demo...</span><br>";
+                        // Simulated output for the interactive portfolio terminal.
+                        response += "<span style='color:var(--primary)'>[+] Demo scope: lab.local</span><br>";
+                        response += "<span style='color:var(--secondary)'>[*] Checking HTTP service notes...</span><br>";
+                        response += "<span style='color:#27c93f'>[+] Finding: Missing security headers documented</span>";
                     } else {
                         response = `<span class="output">${commands[input]}</span>`;
                     }
                 } else if (input !== "") {
-                     response = `<span class="output" style="color:#ff5f56">bash: ${input}: command not found</span>`;
+                    const respDiv = document.createElement('div');
+                    const errorSpan = document.createElement('span');
+                    errorSpan.className = 'output';
+                    errorSpan.style.color = '#ff5f56';
+                    errorSpan.textContent = `bash: ${input}: command not found`;
+                    respDiv.appendChild(errorSpan);
+                    termOutput.insertBefore(prevLine, inputLine);
+                    termOutput.insertBefore(respDiv, inputLine);
+                    this.value = '';
+                    termOutput.scrollTop = termOutput.scrollHeight;
+                    return;
                 }
 
                 // Insert previous line before input line
@@ -1941,7 +1936,7 @@
 
         // Contact Form Mailto Handler
         const contactForm = document.getElementById('contact-form');
-        const recipientEmail = 'itzmerl588@gmail.com'; // <<< UPDATE THIS EMAIL ADDRESS
+        const recipientEmail = 'itzmerl588@gmail.com';
 
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -1951,11 +1946,11 @@
             const message = document.getElementById('contact-message').value;
 
             // Construct the subject and body
-            const subject = `[RL_V0ID Portfolio Contact] New Transmission from ${name}`;
+            const subject = `[RL_V0ID Portfolio Contact] New message from ${name}`;
             const body = `
-Codename: ${name}
+Name: ${name}
 Email: ${email}
---- Message Transmission ---
+--- Message ---
 ${message}
             `;
 
